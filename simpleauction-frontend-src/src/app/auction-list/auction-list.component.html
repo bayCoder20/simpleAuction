@@ -1,0 +1,61 @@
+<section class="table">
+    <div class="rnd-corner table-wrapper-scroll-y custom-scrollbar">
+        <div class="container">
+            <table class="table auctionList  table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Id</th>
+                        <th scope="col">Item Description</th>
+                        <th scope="col">Bidder</th>
+                        <th scope="col">Current Bid</th>
+                        <th scope="col">Reserve Price</th>
+                        <th scope="col">Option</th>
+                        <th style="display:none;">Max Auto Bid Amount</th>
+                    </tr>
+                </thead>
+                <tbody class="w-100">
+                    <tr *ngFor='let data of auctionItems; let i = index'>
+                        <th scope="row">{{i + 1}}</th>
+                        <td>{{data.auctionItemId}}</td>
+                        <td>{{data.item[0].description}}</td>
+                        <td>{{data.bidderName}}</td>
+                        <td><span *ngIf="data.currentBid">$</span>{{data.currentBid}}</td>                        
+                        <td>${{data.reservePrice}}</td>
+                        <td class="bidButton"><button type="button" class="btn btn-primary" (click)="openBidModal(template, data)">Bid</button></td>
+                        <td class="autoBidValue" style="display:none;">{{data.maxAutoBidAmount}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<ng-template #template>
+    <div class="modal-header">
+       <h4 class="modal-title pull-left">{{toBidDescription}} <span style="font-size: 17px">(ID: {{toAuctionItemId}})</span><span *ngIf="toCurrentBid" style="font-size: 17px"> | Current Bid: ${{toCurrentBid}}</span></h4>
+       <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">×</span>
+       </button>
+    </div>
+    <div class="modal-body">
+        <form #newBidData = "ngForm" (ngSubmit) = "onClickSubmit(newBidData.value)">
+            <div class="form-group">
+              <label for="bidderNameInput">Bidder Name</label>
+              <input type="text" required name="bidderName" class="form-control" id="bidderNameInput" placeholder="Enter name" ngModel>
+            </div>
+            <div class="form-group">
+              <label for="bidAmountInput">Bid Amount (USD)</label>
+              <input type="number" min="0.00" value="0.00" step="0.01" required pattern="^\d*(\.\d{0,2})?$" name="currentBid" placeholder="0.00" id="bidAmountInput" class="form-control" data-inputmask="'alias': 'currency'" ngModel>
+            </div>
+            <div class="form-group">
+                <label for="maxAutoBidAmountInput">Max Auto Bid Amount (USD)</label>
+                <input type="number" min="0.00" value="0.00" step="0.01" required pattern="^\d*(\.\d{0,2})?$" name="maxAutoBidAmount" placeholder="0.00" id="maxAutoBidAmountInput" class="form-control" data-inputmask="'alias': 'currency'" ngModel>
+              </div>
+            <button type="submit" id="submitNewAuction" class="btn btn-primary" value="submit">Submit</button>
+        </form>
+    </div>
+    <div class="modal-footer">
+       <button type="button" class="btn btn-default" (click)="modalRef.hide()">Close</button>
+    </div>
+</ng-template>

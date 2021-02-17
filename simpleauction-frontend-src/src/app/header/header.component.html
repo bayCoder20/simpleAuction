@@ -1,0 +1,89 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark text-light">
+    <a class="navbar-brand mr-5 routerLink=auctionNav">Navigation</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse"
+        data-target="#navBarNavAltMarkup" araia-controls="navBarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navBar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navBarNavAltMarkup">
+        <div class="navbar-nav mr-5">
+            <li class="nav-item">
+                <a class="nav-item nav-link active" routerLink="/home" (click)="getAuctionItems()">Home<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-item nav-link" routerLink="" (click)="openNewAuctionModal(template)">New Auction</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-item nav-link" routerLink="" (click)="openBidLogModal(template2)">Bid Log</a>
+            </li>
+        </div>
+    </div>
+</nav>
+
+<app-auction-list></app-auction-list>
+
+<ng-template #template>
+    <div class="modal-header">
+       <h4 class="modal-title pull-left">New Auction</h4>
+       <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">×</span>
+       </button>
+    </div>
+    <div class="modal-body">
+        <form #newAuctionData = "ngForm" (ngSubmit) = "onClickSubmitAuctionItem(newAuctionData.value)">
+            <div class="form-group">
+              <label for="descriptionInput">Item Description</label>
+              <input type="text" name="description" class="form-control" id="descriptionInput" aria-describedby="emailHelp" placeholder="Enter description" ngModel>
+            </div>
+            <div class="form-group">
+              <label for="reservePriceInput">Reserve Price (USD)</label>
+               <input type="number" min="0.00" value="0.00" step="0.01" required pattern="^\d*(\.\d{0,2})?$" placeholder="0.00" name="reservePrice" class="form-control" id="reservePriceInput" ngModel>
+            </div>
+            <button type="submit" id="submitNewAuction" class="btn btn-primary" value="submit">Submit</button>
+        </form>
+    </div>
+    <div class="modal-footer">
+       <button type="button" class="btn btn-default" (click)="modalRef.hide()">Close</button>
+    </div>
+ </ng-template>
+
+ <ng-template #template2>
+    <div class="modal-header">
+       <h4 class="modal-title pull-left">Bid Log</h4>
+       <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">×</span>
+       </button>
+    </div>
+    <div class="modal-body table-wrapper-scroll-y custom-scrollbar">
+        <table class="table bidLogList test-center table-responsive table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th class="hideCol" scope="col">Log Id</th>
+                    <th class="aucIdCol" scope="col">Auc Id</th>
+                    <th scope="col">Bidder</th>
+                    <th scope="col">Bid</th>
+                    <th scope="col">Max Bid</th>
+                    <th scope="col">Comment</th>
+                    <th scope="col">Created Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor='let data of bidLogs; let i = index'>
+                    <th scope="row">{{i + 1}}</th>
+                    <td class="hideCol">{{data.bidLogId}}</td>
+                    <td>{{data.auctionItemId}}</td>
+                    <td>{{data.bidderName}}</td>
+                    <td>${{data.bidAmount}}</td>                        
+                    <td>${{data.maxAutoBidAmount}}</td>
+                    <td>{{data.comment}}</td>
+                    <td>{{data.createdDate}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal-footer">
+       <button type="button" class="btn btn-default" (click)="modalRef.hide()">Close</button>
+    </div>
+ </ng-template>
+
+
