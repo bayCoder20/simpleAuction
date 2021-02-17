@@ -54,4 +54,5 @@ public class Auction {
 	@OneToMany(targetEntity=Item.class, cascade = CascadeType.ALL)
 	@JoinColumn(name="auctionItem_fk", referencedColumnName = "auctionItemId")
 	private List<Item> item = new ArrayList<>();
+	//private JSONArray item = new JSONArray();
 }

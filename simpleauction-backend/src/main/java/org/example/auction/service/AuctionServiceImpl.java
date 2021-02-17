@@ -40,9 +40,8 @@ public class AuctionServiceImpl implements AuctionService {
 	}
 
 	@Override
-	public Auction updateBid(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+	public void updateForBid(Long id, String currentBid, String maxAutoBidAmount, String bidderName) {
+		auctionRepository.updateBid(id, currentBid, maxAutoBidAmount, bidderName);
 	}
 
 }

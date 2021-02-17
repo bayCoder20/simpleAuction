@@ -15,6 +15,6 @@ public interface AuctionService {
 	
 	void delete(Long id);
 	
-	Auction updateBid(Long id);
+	void updateForBid(Long id, String currentBid, String maxAutoBidAmount, String bidderName);
 	
 }

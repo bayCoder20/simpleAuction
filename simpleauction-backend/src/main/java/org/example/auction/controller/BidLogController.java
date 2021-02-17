@@ -1,6 +1,8 @@
 package org.example.auction.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -35,14 +37,19 @@ public class BidLogController {
 		List<BidLog> bidLogs = bidLogService.findAll();
 		Map<String, Object>  map = null;
 		ArrayList<Map<String, Object>>  mapList = new ArrayList<Map<String, Object>>();
+		Date dateTime = null;
+		String dateTimeString = "";
 		for (BidLog bidLog : bidLogs) {
 			map = new LinkedHashMap<String, Object>();
 			map.put("bidLogId", bidLog.getBidLogId());
 			map.put("auctionItemId", bidLog.getAuctionItemId());
 			map.put("bidAmount", bidLog.getBidAmount());
+			map.put("bidderName", bidLog.getBidderName());
 			map.put("maxAutoBidAmount", bidLog.getMaxAutoBidAmount());
 			map.put("comment", bidLog.getComment());
-			map.put("createdDate", bidLog.getCreatedDate());
+			dateTime = bidLog.getCreatedDate();
+			dateTimeString  = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(dateTime);
+			map.put("createdDate", dateTimeString);
 			mapList.add(map);
         }
 		return new ResponseEntity<ArrayList<Map<String, Object>>>(mapList, HttpStatus.OK);
